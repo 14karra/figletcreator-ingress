@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: figletcreatorservice
+spec:
+  selector:
+    app: figletcreatorservice
+  ports:
+    - protocol: TCP
+      port: 9005
+      targetPort: 9005
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: figletcreatorservice
+  labels:
+    app: figletcreatorservice
+spec:
+  selector:
+    matchLabels:
+      app: figletcreatorservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: figletcreatorservice
+    spec:
+      containers:
+        - name: figletcreatorservice
+          image: 14karra/figletcreatorservice:2.0
+          ports:
+            - containerPort: 9005
